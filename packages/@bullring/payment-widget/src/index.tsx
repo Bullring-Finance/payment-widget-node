@@ -308,8 +308,8 @@ const BullringPaymentWidget: React.FC<BullringPaymentWidgetProps> = ({
 
           <div className="mt-auto mt-5">
             <button
-              className="w-full py-4 bg-gray-100 rounded-xl mb-8 text-gray-900"
-              onClick={generateInvoice}
+              className="w-full py-4 bg-gray-100 rounded-xl mb-8 text-gray-900 mt-5"
+              onClick={fetchStoreProfile}
             >
               {t("payment.retry")}
             </button>
