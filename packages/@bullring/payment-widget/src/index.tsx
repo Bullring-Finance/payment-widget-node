@@ -26,7 +26,6 @@ export interface BullringPaymentWidgetProps {
   onPaymentSuccess?: (tx: PaymentResponse) => void;
   onPaymentError?: (error: Error | string) => void;
   onClose?: (txId: string) => void;
-  theme?: "light" | "dark";
 }
 
 export interface PaymentResponse {
@@ -74,7 +73,6 @@ const BullringPaymentWidget: React.FC<BullringPaymentWidgetProps> = ({
   onPaymentSuccess = () => {},
   onPaymentError = () => {},
   onClose = () => {},
-  theme = "light",
 }): ReactNode => {
   const { t } = useTranslation();
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>("idle");
@@ -362,11 +360,7 @@ const BullringPaymentWidget: React.FC<BullringPaymentWidgetProps> = ({
           onClick={() => onClose(invoiceId)}
         />
         <div
-          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm mx-auto rounded-lg shadow-lg p-6 ${
-            theme === "dark"
-              ? "bg-gray-800 text-white"
-              : "bg-white text-gray-900"
-          }`}
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm mx-auto rounded-lg shadow-lg p-6 ${"bg-white text-gray-900"}`}
         >
           <div className="flex items-center justify-center space-x-2">
             <Icon
@@ -388,9 +382,7 @@ const BullringPaymentWidget: React.FC<BullringPaymentWidgetProps> = ({
         onClick={() => onClose(invoiceId)}
       />
       <div
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm mx-auto rounded-lg shadow-lg p-6 ${
-          theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-900"
-        }`}
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm mx-auto rounded-lg shadow-lg p-6 ${"bg-white text-gray-900"}`}
       >
         <div className="flex items-center justify-between mb-4">
           <span className="text-lg opacity-75 text-center w-full">
