@@ -13,7 +13,7 @@ function App() {
       {count === 1 ? (
         <BullringPaymentWidget
           amount={1000}
-          merchantId="1081ea8f-3e32-4b95-8241-fa5b54e19f59"
+          merchantId="e6095fa1-4d03-4d6b-8fa8-e77009484a6e"
           onPaymentSuccess={(txid) => console.log("Payment received:", txid)}
           onPaymentError={(txid) => console.log("Payment received:", txid)}
           onClose={() => {

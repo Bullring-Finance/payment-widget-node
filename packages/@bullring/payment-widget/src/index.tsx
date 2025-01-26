@@ -21,7 +21,6 @@ i18n.use(initReactI18next).init({
 
 export interface BullringPaymentWidgetProps {
   amount: number;
-  currency?: string;
   merchantId: string;
   merchantName?: string;
   onPaymentSuccess?: (tx: PaymentResponse) => void;
@@ -61,10 +60,15 @@ const Icon = React.forwardRef<
 });
 
 type PaymentStatus = "idle" | "pending" | "success" | "error";
+const getBaseUrl = (merchantId: string) => {
+  if (merchantId === "e6095fa1-4d03-4d6b-8fa8-e77009484a6e") {
+    return "https://staging-api.bullring.finance/v1";
+  }
+  return "https://api.bullring.finance/v1";
+};
 
 const BullringPaymentWidget: React.FC<BullringPaymentWidgetProps> = ({
   amount = 0,
-  currency,
   merchantId,
   merchantName,
   onPaymentSuccess = () => {},
@@ -76,21 +80,14 @@ const BullringPaymentWidget: React.FC<BullringPaymentWidgetProps> = ({
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>("idle");
   const [invoice, setInvoice] = useState<string>("");
   const [invoiceId, setInvoiceId] = useState<string>("");
-  const [countdown, setCountdown] = useState<number>(900);
+  const [, setCountdown] = useState<number>(900);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const BASEURL = "http://localhost:3000/v1";
-  const formatAmount = (value: number | null): string => {
-    if (typeof value !== "number") return "0";
-    return value.toLocaleString("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  };
+  const BASEURL = getBaseUrl(merchantId);
 
   const formatAmountIntl = (value: number | null, currency: string): string => {
-    if (typeof value !== "number") return "0";
+    if (typeof value !== "number" || !currency) return "0";
     return new Intl.NumberFormat(navigator.language, {
       style: "currency",
       currency,
@@ -100,6 +97,15 @@ const BullringPaymentWidget: React.FC<BullringPaymentWidgetProps> = ({
     if (!amount || !merchantId) {
       setIsLoading(false);
       onPaymentError("Invalid amount or merchant ID");
+      return;
+    }
+    if (!profile?.name || !profile?.preferredCurrency) {
+      console.error("Failed to generate invoice:", error);
+      setError(new Error("Failed to generate invoice"));
+      onPaymentError(
+        error instanceof Error ? error : new Error("Failed to generate invoice")
+      );
+      setIsLoading(false);
       return;
     }
 
@@ -149,8 +155,24 @@ const BullringPaymentWidget: React.FC<BullringPaymentWidgetProps> = ({
         },
       });
       const data: Profile = await response.json();
+
+      if (!data.name || !data.preferredCurrency) {
+        console.error("Failed to generate invoice:", error);
+        setError(new Error("Failed to generate invoice"));
+        onPaymentError(
+          error instanceof Error
+            ? error
+            : new Error("Failed to generate invoice")
+        );
+        setIsLoading(false);
+      }
       setProfile(data);
     } catch (error) {
+      console.error("Failed to generate invoice:", error);
+      setError(new Error("Failed to generate invoice"));
+      onPaymentError(
+        error instanceof Error ? error : new Error("Failed to generate invoice")
+      );
       setIsLoading(false);
     }
   };
@@ -192,7 +214,7 @@ const BullringPaymentWidget: React.FC<BullringPaymentWidgetProps> = ({
   }, []);
 
   useEffect(() => {
-    if (profile) {
+    if (profile?.name && profile?.preferredCurrency) {
       generateInvoice();
     }
   }, [profile]);
