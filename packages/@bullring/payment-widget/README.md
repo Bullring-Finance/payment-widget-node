@@ -36,6 +36,7 @@ function App() {
 }
 ```
 
+
 ## Props
 
 | Prop | Type | Description |
@@ -70,6 +71,12 @@ Currently supports:
 - Portuguese
 
 Language detected automatically from browser settings.
+
+## Contact
+
+Website: https://bullring.finance
+
+Email: developer@bullring.finance
 
 ## License
 
