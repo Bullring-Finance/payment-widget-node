@@ -1,17 +1,15 @@
 import typescript from "@rollup/plugin-typescript";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
-import dts from "rollup-plugin-dts";
 import postcss from "rollup-plugin-postcss";
 import terser from "@rollup/plugin-terser";
-import replace from "@rollup/plugin-replace";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const pkg = require("./package.json");
 
 export default [
   {
-    input: "src/web-components/payment-widget.ts",
+    input: "src/index.ts",
     output: [
       {
         file: pkg.module,
@@ -26,31 +24,24 @@ export default [
       {
         file: pkg.unpkg,
         format: "umd",
-        name: "BullringPayment",
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
+        name: "BullringPaymentWidget",
         sourcemap: true,
       },
     ],
     plugins: [
-      replace({
-        preventAssignment: true,
-        values: {
-          "process.env.NODE_ENV": JSON.stringify("production"),
-        },
-      }),
       resolve({
         browser: true,
         preferBuiltins: false,
       }),
-      ,
       commonjs({
         include: /node_modules/,
       }),
       typescript({
         tsconfig: "./tsconfig.json",
+        outDir: "./dist",
+        declaration: true,
+        declarationDir: "./dist",
+        inlineSources: true,
       }),
       postcss({
         config: {
@@ -61,11 +52,10 @@ export default [
       }),
       terser(),
     ],
-    external: ["react", "react-dom"],
   },
   {
     input: "src/styles/styles.css",
-    output: [{ file: "dist/styles/styles.css", format: "es" }],
+    output: [{ file: pkg.style, format: "es" }],
     plugins: [
       postcss({
         config: {
@@ -76,11 +66,5 @@ export default [
       }),
       terser(),
     ],
-  },
-  {
-    input: "src/web-components/payment-widget.ts",
-    output: [{ file: "dist/payment-widget.d.ts", format: "esm" }],
-    plugins: [dts()],
-    external: [/\.css$/],
   },
 ];

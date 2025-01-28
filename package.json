@@ -1,7 +1,7 @@
 {
   "name": "bullring-widget-monorepo",
   "workspaces": [
-    "packages/*",
+    "packages/@bullring/*",
     "apps/*"
   ],
   "version": "1.0.0",

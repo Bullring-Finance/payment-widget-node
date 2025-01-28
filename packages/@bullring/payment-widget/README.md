@@ -9,6 +9,9 @@ Lightning payment widget for web applications.
 3. Add bank account
 4. Copy merchant ID from app settings
 5. Install widget:
+# Bullring Payment Widget
+
+A customizable payment widget that supports Lightning Network payments across multiple frontend frameworks.
 
 ## Installation
 
@@ -16,53 +19,248 @@ Lightning payment widget for web applications.
 npm install @bullring/payment-widget
 ```
 
-## Usage
+Or using yarn:
+```bash
+yarn add @bullring/payment-widget
+```
 
+Or using pnpm:
+```bash
+pnpm add @bullring/payment-widget
+```
+
+## Basic Usage
+
+### Vanilla JavaScript/HTML
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/@bullring/payment-widget/dist/styles.css">
+  <script type="module" src="https://unpkg.com/@bullring/payment-widget"></script>
+</head>
+<body>
+  <bullring-payment-widget
+    invoice-amount="100"
+    merchant-id="your-merchant-id"
+    merchant-name="Your Store">
+  </bullring-payment-widget>
+
+  <script>
+    const widget = document.querySelector('bullring-payment-widget');
+    
+    widget.addEventListener('payment-success', (e) => {
+      console.log('Payment successful:', e.detail);
+    });
+
+    widget.addEventListener('payment-error', (e) => {
+      console.error('Payment failed:', e.detail);
+    });
+
+    widget.addEventListener('close', (e) => {
+      console.log('Widget closed, transaction ID:', e.detail);
+    });
+  </script>
+</body>
+</html>
+```
+
+### React
 ```tsx
-import PaymentWidget from '@bullring/payment-widget'
+import "@bullring/payment-widget";
 
-function App() {
+const PaymentComponent = () => {
+  const handlePaymentSuccess = (data: any) => {
+    console.log('Payment successful:', data);
+  };
+
+  const handlePaymentError = (error: Error) => {
+    console.error('Payment failed:', error);
+  };
+
+  const handleClose = (txId: string) => {
+    console.log('Widget closed:', txId);
+  };
+
   return (
-    <PaymentWidget 
-      merchantId="e6095fa1-4d03-4d6b-8fa8-e77009484a6e"
-      amount={1000}  
-      onSuccess={(invoice) => console.log('Payment successful', invoice)}
-      onError={(error) => console.log('Payment failed', error)}
-      onClose={() => {
-            console.log('user initiated close action')
+     <bullring-payment-widget
+          invoice-amount={1000}
+          merchant-id={"e6095fa1-4d03-4d6b-8fa8-e77009484a6e"}
+          onpaymentSuccess={(txid) => console.log("Payment received:", txid)}
+          onpaymentError={(txid) => console.log("Payment received:", txid)}
+          onclose={() => {
+            console.log("yey!");
+            setCount(0);
           }}
-    />
-  )
+        />
+  );
+};
+```
+
+### Vue
+```vue
+<template>
+  <bullring-payment-widget
+    :invoice-amount="100"
+    merchant-id="your-merchant-id"
+    merchant-name="Your Store"
+    @payment-success="handlePaymentSuccess"
+    @payment-error="handlePaymentError"
+    @close="handleClose"
+  />
+</template>
+
+<script setup lang="ts">
+import '@bullring/payment-widget';
+import '@bullring/payment-widget/dist/styles.css';
+
+const handlePaymentSuccess = (data: any) => {
+  console.log('Payment successful:', data);
+};
+
+const handlePaymentError = (error: Error) => {
+  console.error('Payment failed:', error);
+};
+
+const handleClose = (txId: string) => {
+  console.log('Widget closed:', txId);
+};
+</script>
+```
+
+### Angular
+```typescript
+// app.module.ts
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // Required for web components
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+
+// app.component.ts
+import { Component, OnInit } from '@angular/core';
+import '@bullring/payment-widget';
+import '@bullring/payment-widget/dist/styles.css';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <bullring-payment-widget
+      [invoice-amount]="100"
+      [merchant-id]="merchantId"
+      [merchant-name]="merchantName"
+      (paymentSuccess)="onPaymentSuccess($event)"
+      (paymentError)="onPaymentError($event)"
+      (close)="onClose($event)">
+    </bullring-payment-widget>
+  `
+})
+export class AppComponent {
+  merchantId = 'your-merchant-id';
+  merchantName = 'Your Store';
+
+  onPaymentSuccess(event: CustomEvent) {
+    console.log('Payment successful:', event.detail);
+  }
+
+  onPaymentError(event: CustomEvent) {
+    console.error('Payment failed:', event.detail);
+  }
+
+  onClose(event: CustomEvent) {
+    console.log('Widget closed:', event.detail);
+  }
 }
 ```
 
+### Svelte
+```svelte
+<script lang="ts">
+  import '@bullring/payment-widget';
+  import '@bullring/payment-widget/dist/styles.css';
 
-## Props
+  const handlePaymentSuccess = (event: CustomEvent) => {
+    console.log('Payment successful:', event.detail);
+  };
 
-| Prop | Type | Description |
-|------|------|-------------|
-| merchantName (optional) | string | Store/merchant name |
-| merchantId | string | Store/merchant name |
-| amount | number | Payment amount |
-| onSuccess | (id: string) => void | Success callback |
-| onError | (error: Error) => void | Error callback |
-| onClose | () => void | Close callback |
+  const handlePaymentError = (event: CustomEvent) => {
+    console.error('Payment failed:', event.detail);
+  };
 
-### PaymentInvoice
+  const handleClose = (event: CustomEvent) => {
+    console.log('Widget closed:', event.detail);
+  };
+</script>
 
-```ts
+<bullring-payment-widget
+  invoice-amount={100}
+  merchant-id="your-merchant-id"
+  merchant-name="Your Store"
+  on:payment-success={handlePaymentSuccess}
+  on:payment-error={handlePaymentError}
+  on:close={handleClose}
+/>
+```
 
-interface PaymentInvoice {
+## API Reference
 
-  id: string;
+### Props
 
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| invoice-amount | number | Yes | Payment amount in the merchant's preferred currency |
+| merchantId | string | Yes | Your Bullring merchant ID |
+| merchantName  | string | No | Display name for your store |
+
+### Events
+
+| Event | Detail Type | Description |
+|-------|------------|-------------|
+| payment-success | PaymentResponse | Fired when payment is successfully completed |
+| payment-error | Error | Fired when an error occurs during payment |
+| close | string | Fired when the widget is closed (includes transaction ID) |
+
+### PaymentResponse Type
+
+```typescript
+interface PaymentResponse {
   lightningInvoice: string;
-
-  status: 'paid' | 'unpaid' | 'expired';
-
+  id: string;
+  paymentHash: string | null;
+  paymentRequestAmount: number;
+  paymentRequestCurrency: string;
+  invoiceCurrency: string;
+  invoiceAmount: number;
+  status: 'unpaid' | 'paid' | 'expired';
+  note: string;
+  createdAt: string;
+  updatedAt: string;
 }
-
 ```
+
+## Styling
+
+The widget comes with default styles, but you can customize its appearance using CSS variables:
+
+```css
+:root {
+  /* Add your custom styles here */
+}
+```
+
+## Browser Support
+
+The widget works in all modern browsers that support Web Components:
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+
 
 ## Internationalization
 
@@ -77,6 +275,15 @@ Language detected automatically from browser settings.
 Website: https://bullring.finance
 
 Email: developer@bullring.finance
+
+## License
+
+MIT
+
+## Support
+
+For support, please open an issue on our GitHub repository or contact support@bullring.finance.
+
 
 ## License
 

@@ -1,0 +1,40 @@
+{
+    "version": "1.0.0",
+    "tags": [
+        {
+            "name": "bullring-payment-widget",
+            "path": "./src/index.ts",
+            "attributes": [
+                {
+                    "name": "amount",
+                    "type": "number",
+                    "description": "Payment amount in the merchant's default currency"
+                },
+                {
+                    "name": "merchant-id",
+                    "type": "string",
+                    "description": "Merchant ID for the payment"
+                },
+                {
+                    "name": "merchant-name",
+                    "type": "string",
+                    "description": "Display name for the merchant"
+                }
+            ],
+            "events": [
+                {
+                    "name": "payment-success",
+                    "description": "Fired when payment is successful"
+                },
+                {
+                    "name": "payment-error",
+                    "description": "Fired when an error occurs"
+                },
+                {
+                    "name": "close",
+                    "description": "Fired when the widget is closed"
+                }
+            ]
+        }
+    ]
+}

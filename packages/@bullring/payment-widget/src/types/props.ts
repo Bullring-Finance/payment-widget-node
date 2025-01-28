@@ -1,6 +1,6 @@
 import { PaymentResponse } from "./payment";
 export interface BullringPaymentWidgetProps {
-    amount: number;
+    invoiceAmount: number;
     merchantId: string;
     merchantName?: string;
     onPaymentSuccess?: (tx: PaymentResponse) => void;

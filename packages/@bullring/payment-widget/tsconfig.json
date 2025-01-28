@@ -1,20 +1,31 @@
 {
   "compilerOptions": {
-   "lib": ["dom", "dom.iterable", "esnext"],
-    "target": "es5", 
-    "jsx": "react-jsx", // Ensure it's React's JSX runtime
-    "skipLibCheck": true, // Ignores library type checking
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "jsx": "react",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "types": ["react"],
-    "module": "esnext",
-    "declaration": true,
-    "outDir": "dist",
+    "skipLibCheck": true,
     "strict": true,
-    "moduleResolution": "node",
-    "jsxImportSource": "react",
-    "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types", "./node_modules/lucide-react"]
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
-  "include": ["src"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
