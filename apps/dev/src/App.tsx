@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import BullringPaymentWidget from "@bullring/payment-widget";
+import { BullringPaymentWidget } from "@bullring/payment-widget/dist";
 
 function App() {
   const [count, setCount] = useState(0);
