@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import BullringPaymentWidget from '../components/BullringPaymentWidget';
 
+
 class PaymentWidget extends HTMLElement {
     private root: ReactDOM.Root | null = null;
     private mountPoint: HTMLDivElement;
@@ -48,30 +49,45 @@ class PaymentWidget extends HTMLElement {
     }
 
     connectedCallback() {
-        this.root = ReactDOM.createRoot(this.mountPoint);
-        this.render();
+        try {
+            this.root = ReactDOM.createRoot(this.mountPoint);
+            this.render();
+        } catch (error) {
+            console.error('Failed to initialize payment widget:', error);
+        }
     }
 
     disconnectedCallback() {
         if (this.root) {
-            this.root.unmount();
+            try {
+                this.root.unmount();
+            } catch (error) {
+                console.error('Failed to unmount payment widget:', error);
+            }
         }
     }
 
-    attributeChangedCallback() {
-        this.render();
+    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+        if (oldValue !== newValue) {
+            this.render();
+        }
     }
 
     private render() {
         if (!this.root) return;
-        this.root.render(
-            React.createElement(BullringPaymentWidget, this.getProps())
-        );
+        try {
+            this.root.render(
+                React.createElement(BullringPaymentWidget, this.getProps())
+            );
+        } catch (error) {
+            console.error('Failed to render payment widget:', error);
+        }
     }
 }
 
-// Register the web component
-customElements.define('payment-widget', PaymentWidget);
+// Check if the custom element is already defined
+if (!customElements.get('bullring-payment')) {
+    customElements.define('bullring-payment', PaymentWidget);
+}
 
-// Export for bundlers that support it
 export default PaymentWidget;
