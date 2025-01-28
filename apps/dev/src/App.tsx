@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import "@bullring/payment-widget";
+
 export interface BullringPaymentWidgetProps
   extends React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLElement>,

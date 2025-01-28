@@ -9,9 +9,6 @@ Lightning payment widget for web applications.
 3. Add bank account
 4. Copy merchant ID from app settings
 5. Install widget:
-# Bullring Payment Widget
-
-A customizable payment widget that supports Lightning Network payments across multiple frontend frameworks.
 
 ## Installation
 
@@ -215,8 +212,8 @@ export class AppComponent {
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
 | invoice-amount | number | Yes | Payment amount in the merchant's preferred currency |
-| merchantId | string | Yes | Your Bullring merchant ID |
-| merchantName  | string | No | Display name for your store |
+| merchant-id | string | Yes | Your Bullring merchant ID |
+| merchant-name  | string | No | Display name for your store |
 
 ### Events
 
@@ -282,10 +279,4 @@ MIT
 
 ## Support
 
-For support, please open an issue on our GitHub repository or contact support@bullring.finance.
-
-
-## License
-
-MIT
-```
+For support, please contact developer@bullring.finance
