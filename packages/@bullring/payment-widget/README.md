@@ -40,7 +40,7 @@ pnpm add @bullring/payment-widget
   <bullring-payment-widget
     invoice-amount="100"
     merchant-id="your-merchant-id"
-    merchant-name="Your Store">
+    merchant-name="Your Store"
   </bullring-payment-widget>
 
   <script>

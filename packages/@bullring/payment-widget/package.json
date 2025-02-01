@@ -1,7 +1,7 @@
 {
   "name": "@bullring/payment-widget",
   "private": false,
-  "version": "1.0.12",
+  "version": "1.0.13",
   "publishConfig": {
     "access": "public"
   },
