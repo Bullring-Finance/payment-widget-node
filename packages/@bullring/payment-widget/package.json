@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "build": "rollup -c && node scripts/copy-dts.js",
-    "dev": "concurrently \"npm run watch:rollup\" \"live-server test --port=8080\" \"node scripts/copy-dts.js\"",
+    "dev": "concurrently \"npm run watch:rollup\" \"npm run prepare:test\" \"live-server test --port=8080\" \"node scripts/copy-dts.js\"",
     "watch:rollup": "rollup -c -w",
     "prepare:test": "mkdir -p test && cp -r dist/* test/ && cp index.html test/",
     "build:tailwind": "tailwindcss -i ./src/styles/index.css -o ./src/styles/styles.css",

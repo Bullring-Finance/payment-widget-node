@@ -60,7 +60,8 @@ template.innerHTML = `
       @apply bg-white p-2 rounded-xl hover:bg-slate-200 hover:border-transparent;
     }
     .close-button {
-      @apply w-full py-4 bg-gray-100 rounded-xl my-4 text-gray-900;
+      @apply w-full py-4 bg-gray-900 rounded-xl my-4 text-white text-lg font-semibold;
+      color: #fff;
     }
     .footer {
       @apply mt-8 text-center text-sm text-slate-400;
@@ -146,14 +147,15 @@ template.innerHTML = `
     .close-button {
       width: 100%;
       padding: 1rem;
-      background-color: #f3f4f6;
+      background-color: #000;
       border-radius: 0.75rem;
       margin: 1rem 0;
-      color: rgb(17, 24, 39);
+      color: #fff;
       cursor: pointer;
     }
 
     .close-button:hover {
+      color: rgb(17, 24, 39);
       background-color: #e5e7eb;
     }
   </style>
@@ -557,7 +559,7 @@ class BullringPaymentWidget extends HTMLElement {
           ${LucideIcons.copy({ size: 24 })}
         </button>
       </div>
-      <button class="close-button text-black" @click="${() => this.closeModal()}">
+      <button class="close-button" @click="${() => this.closeModal()}">
         ${i18next.t('payment.close')}
       </button>
       <div class="mt-8 text-center text-sm text-slate-400 footer">
