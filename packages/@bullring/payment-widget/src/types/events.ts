@@ -14,6 +14,7 @@ declare global {
     interface HTMLElementEventMap {
         'payment-success': PaymentSuccessEvent;
         'payment-error': PaymentErrorEvent;
+        'payment-close': CloseEvent;
         'close': CloseEvent;
     }
 }

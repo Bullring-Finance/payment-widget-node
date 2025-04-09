@@ -33,6 +33,10 @@
                 {
                     "name": "close",
                     "description": "Fired when the widget is closed"
+                },
+                {
+                    "name": "payment-close",
+                    "description": "Fired when the widget is closed"
                 }
             ]
         }

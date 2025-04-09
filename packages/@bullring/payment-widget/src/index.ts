@@ -322,9 +322,12 @@ class BullringPaymentWidget extends HTMLElement {
     }
   }
 
-  private close() {
+  private closeModal() {
+    console.log('Closing modal');
     this.dispatchEvent(new CustomEvent('close', { detail: this.invoiceId }));
+    this.dispatchEvent(new CustomEvent('payment-close', { detail: this.invoiceId }));
     // this.remove();
+    // this.render();
   }
 
   private renderLoading() {
@@ -352,7 +355,7 @@ class BullringPaymentWidget extends HTMLElement {
             <p class="text-gray-900 text-sm truncate mt-1">${this.invoiceId}</p>
           </div>
         </div>
-        <button class="close-button" @click="${() => this.close()}">
+        <button class="close-button" @click="${() => this.closeModal()}">
           ${i18next.t('payment.close')}
         </button>
       </div>
@@ -481,7 +484,7 @@ class BullringPaymentWidget extends HTMLElement {
           <div class="bg-gray-50 rounded-2xl p-6 mt-4 text-black">
             <p class="text-red-500">${this.error.message}</p>
           </div>
-          <button class="close-button" @click="${() => this.close()}">
+          <button class="close-button" @click="${() => this.closeModal()}">
             ${i18next.t('payment.retry')}
           </button>
         </div>
@@ -527,7 +530,7 @@ class BullringPaymentWidget extends HTMLElement {
           ${LucideIcons.copy({ size: 24 })}
         </button>
       </div>
-      <button class="close-button text-black" @click="${() => this.close()}">
+      <button class="close-button text-black" @click="${() => this.closeModal()}">
         ${i18next.t('payment.close')}
       </button>
       <div class="mt-8 text-center text-sm text-slate-400 footer">
@@ -547,7 +550,7 @@ class BullringPaymentWidget extends HTMLElement {
 
     const closeButton = container.querySelector('.close-button');
     if (closeButton) {
-      closeButton.addEventListener('click', () => this.close());
+      closeButton.addEventListener('click', () => this.closeModal());
     }
   }
 }
