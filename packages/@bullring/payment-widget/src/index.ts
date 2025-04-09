@@ -324,7 +324,7 @@ class BullringPaymentWidget extends HTMLElement {
 
   private close() {
     this.dispatchEvent(new CustomEvent('close', { detail: this.invoiceId }));
-    this.remove();
+    // this.remove();
   }
 
   private renderLoading() {
