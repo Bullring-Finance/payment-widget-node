@@ -387,7 +387,7 @@ class BullringPaymentWidget extends HTMLElement {
       // Load high quality logo (requesting a larger size from Cloudinary)
       // Load high quality logo with specific Cloudinary transformations
       const logoResponse = await fetch(
-        "https://res.cloudinary.com/bullring-finance/image/upload/v1737821231/icon_vx7b1o.png"
+        "https://res.cloudinary.com/bullring-finance/image/upload/v1744176738/icon_wspqla.png"
       );
       const logoBlob = await logoResponse.blob();
       const logoImage = await createImageBitmap(logoBlob);
