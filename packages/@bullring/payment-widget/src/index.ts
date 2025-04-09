@@ -473,6 +473,15 @@ class BullringPaymentWidget extends HTMLElement {
 
     if (this.isLoading) {
       container.innerHTML = this.renderLoading();
+      const copyButton = container.querySelector('.copy-button');
+      if (copyButton) {
+        copyButton.addEventListener('click', () => this.copyToClipboard(this.invoice));
+      }
+
+      const closeButton = container.querySelector('.close-button');
+      if (closeButton) {
+        closeButton.addEventListener('click', () => this.closeModal());
+      }
       return;
     }
 
@@ -489,11 +498,29 @@ class BullringPaymentWidget extends HTMLElement {
           </button>
         </div>
       `;
+      const copyButton = container.querySelector('.copy-button');
+      if (copyButton) {
+        copyButton.addEventListener('click', () => this.copyToClipboard(this.invoice));
+      }
+
+      const closeButton = container.querySelector('.close-button');
+      if (closeButton) {
+        closeButton.addEventListener('click', () => this.closeModal());
+      }
       return;
     }
 
     if (this.paymentStatus === 'success') {
       container.innerHTML = this.renderSuccess();
+      const copyButton = container.querySelector('.copy-button');
+      if (copyButton) {
+        copyButton.addEventListener('click', () => this.copyToClipboard(this.invoice));
+      }
+
+      const closeButton = container.querySelector('.close-button');
+      if (closeButton) {
+        closeButton.addEventListener('click', () => this.closeModal());
+      }
       return;
     }
 
