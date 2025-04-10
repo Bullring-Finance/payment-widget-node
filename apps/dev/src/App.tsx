@@ -26,6 +26,7 @@ function App() {
       {count === 1 ? (
         <bullring-payment-widget
           invoice-amount={1000}
+          note="Test payment"
           merchant-id={"e6095fa1-4d03-4d6b-8fa8-e77009484a6e"}
           onpaymentSuccess={(txid) => console.log("Payment received:", txid)}
           onpaymentError={(txid) => console.log("Payment received:", txid)}

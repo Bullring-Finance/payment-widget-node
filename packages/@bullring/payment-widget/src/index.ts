@@ -174,13 +174,14 @@ class BullringPaymentWidget extends HTMLElement {
   private amount: number = 0;
   private merchantId: string = '';
   private merchantName: string = '';
+  private note: string = '';
   private paymentStatus: 'idle' | 'pending' | 'success' | 'error' = 'idle';
   private profile: Profile | null = null;
   private isLoading: boolean = true;
   private error: Error | null = null;
 
   static get observedAttributes() {
-    return ['amount', 'merchant-id', 'merchant-name', 'invoice-amount'];
+    return ['amount', 'merchant-id', 'merchant-name', 'invoice-amount', 'note'];
   }
 
   constructor() {
@@ -219,6 +220,9 @@ class BullringPaymentWidget extends HTMLElement {
         case 'merchant-name':
           this.merchantName = newValue;
           break;
+        case 'note':
+          this.note = newValue;
+          break;
       }
       this.render();
     }
@@ -228,6 +232,7 @@ class BullringPaymentWidget extends HTMLElement {
     this.amount = Number(this.getAttribute('invoice-amount')) || 0;
     this.merchantId = this.getAttribute('merchant-id') || '';
     this.merchantName = this.getAttribute('merchant-name') || '';
+    this.note = this.getAttribute('note') || '';
   }
 
   private async fetchStoreProfile() {
@@ -264,6 +269,7 @@ class BullringPaymentWidget extends HTMLElement {
           body: JSON.stringify({
             amount: this.amount,
             currency: this?.profile?.preferredCurrency,
+            note: this.note || '',
           }),
         }
       );
@@ -543,6 +549,11 @@ class BullringPaymentWidget extends HTMLElement {
           ${formatAmountIntl(this.amount, this.profile?.preferredCurrency || '')}
         </div>
       </div>
+      ${this.note ? `
+        <div class="text-center text-sm text-gray-600 italic mb-4">
+          ${this.note}
+        </div>
+      ` : ''}
       ${this.invoice ? `
         <div class="bg-white p-4 rounded-lg mb-4">
           <div class="h-64 flex items-center justify-center border mx-auto qr-code">
